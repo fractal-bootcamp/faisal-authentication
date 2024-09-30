@@ -1,6 +1,7 @@
 import express from "express"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
+import cors from "cors"
 import { AUTH_SECRET, authenticate } from "./middleware/middleware"
 
 
@@ -8,6 +9,7 @@ const app = express()
 const PORT = 3003
 
 app.use(express())
+app.use(cors({ origin: "http://localhost:5173" }))
 app.use(express.json())
 
 interface UserTypes {
@@ -15,12 +17,7 @@ interface UserTypes {
     password: string
 }
 
-const userData: UserTypes[] = [
-    {
-        username: "Faisal",
-        password: "11111"
-    },
-]
+const userData: UserTypes[] = []
 
 app.get("/", (_req, res) => {
     res.send("I am alive")
@@ -57,14 +54,11 @@ app.post("/login", async (req, res) => {
 
         // do some comparison on the result to see if it's actually the same.
         if (passwordCheck) {
-            console.log("AUTH_SECRET:", AUTH_SECRET)
-
-            const token = jwt.sign({ id: user.username }, AUTH_SECRET)
+            const token = jwt.sign({ id: user.username }, AUTH_SECRET, { expiresIn: "1h" })
             res.status(202).json({ message: "Authorized access.", token })
         } else {
             res.status(400).json({ message: "Unauthorized access." })
         }
-
     } catch (error) {
         res.status(500).json({ message: "Error." })
     }
