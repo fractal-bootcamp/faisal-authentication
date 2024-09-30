@@ -2,12 +2,12 @@ GET http://localhost:3003/users
 
 ###
 
-POST http://localhost:3003/users
+POST http://localhost:3003/signup
 Content-Type: application/json
 
 {
     "username": "Andrew",
-    "password": "33333"
+    "password": "22222"
 }
 
 ###
@@ -16,5 +16,10 @@ Content-Type: application/json
 
 {
     "username": "Andrew",
-    "password": "33333"
+    "password": "22222"
 }
+
+###
+GET http://localhost:3003/authenticated
+Content-Type: application/json 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IkFuZHJldyIsImlhdCI6MTcyNzcxNjkzOX0.yaAFSQPVWSrG5KHV2s646tJAQktRfXCHuFK5DYDVMLQ
